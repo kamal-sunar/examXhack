@@ -1,7 +1,8 @@
 import { spawn } from "child_process";
 import { Reply } from "./interfaces";
+import { PostQuestionsRequest } from "./interfaces";
 
-export const findSimilarity_py = (questions: string): Promise<{ statusCode: number; status: string; result: string }> => {
+export const findSimilarity_py = (input: PostQuestionsRequest): Promise<{ statusCode: number; status: string; result: string }> => {
     return new Promise((resolve, reject) => {
         const response: Reply = {
             statusCode: 200,
@@ -11,7 +12,7 @@ export const findSimilarity_py = (questions: string): Promise<{ statusCode: numb
 
         const findSimilarity = spawn("python", ["src/python/main.py"]);
 
-        findSimilarity.stdin.write(questions);
+        findSimilarity.stdin.write(input);
         findSimilarity.stdin.end();
 
         findSimilarity.stdout.on("data", (chunk) => {

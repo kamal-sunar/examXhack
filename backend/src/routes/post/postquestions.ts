@@ -7,9 +7,9 @@ const router: Router = express.Router();
 router.post("/postquestions", async (
     req: Request<{}, {}, PostQuestionsRequest>, 
     res: Response) => {
-    const {university, course, subject, questions} = req.body
-    console.log(req.body)
-    const response = await findSimilarity_py("questions")
+    const input: PostQuestionsRequest = req.body
+
+    const response = await findSimilarity_py(input)
 
     res.status(response.statusCode).json({status: response.status, result: response.result})
 });
